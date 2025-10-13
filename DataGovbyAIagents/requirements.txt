@@ -1,0 +1,19 @@
+# 🌊 SyncFlow AI Governance Platform
+# Python Requirements
+
+# Google Cloud
+google-cloud-bigquery==3.14.1
+
+# Google Gemini AI
+google-generativeai==0.3.2
+
+# Data processing
+pandas==2.1.4
+numpy==1.26.3
+
+# Visualization (for Streamlit dashboard)
+streamlit==1.30.0
+plotly==5.18.0
+
+# Utilities
+python-dotenv==1.0.0

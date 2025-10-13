@@ -1,0 +1,5 @@
+{
+  "workspace_url": "https://adb-3342545242431.1.azuredatabricks.net",
+  "access_token": "YOUR_DATABRICKS_ACCESS_TOKEN",
+  "catalog_filter": "catalog_databricks"
+}
