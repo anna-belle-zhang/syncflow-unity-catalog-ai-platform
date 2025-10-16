@@ -2,7 +2,7 @@
 🌊 SyncFlow AI Governance Platform
 Gemini AI Agents Implementation
 
-This module implements AI agents using Google Gemini 2.5 Flash for:
+This module implements AI agents using Google Gemini 2.0 Flash via Vertex AI for:
 1. Data Discovery - Natural language search over Unity Catalog metadata
 2. PII Detection - Automated detection of sensitive data
 3. Auto Documentation - AI-generated table and column descriptions
@@ -12,7 +12,8 @@ This module implements AI agents using Google Gemini 2.5 Flash for:
 import json
 from typing import List, Dict, Any, Optional
 from google.cloud import bigquery
-import google.generativeai as genai
+import vertexai
+from vertexai.generative_models import GenerativeModel
 import pandas as pd
 
 
@@ -21,15 +22,15 @@ import pandas as pd
 # ============================================================================
 
 PROJECT_ID = "YOUR_GCP_PROJECT_ID"
+LOCATION = "us-central1"  # or your preferred region
 METADATA_DATASET = "unity_catalog_metadata"
 ML_DATASET = "ml_models"
 
-# Configure Gemini API
-GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE"
-genai.configure(api_key=GEMINI_API_KEY)
+# Initialize Vertex AI
+vertexai.init(project=PROJECT_ID, location=LOCATION)
 
-# Initialize Gemini 2.5 Flash model
-model = genai.GenerativeModel('gemini-2.0-flash-exp')
+# Initialize Gemini 2.0 Flash model via Vertex AI
+model = GenerativeModel('gemini-2.0-flash-exp')
 
 # Initialize BigQuery client
 bq_client = bigquery.Client(project=PROJECT_ID)
@@ -43,7 +44,7 @@ class DataDiscoveryAgent:
     """
     AI Agent for natural language data discovery over Unity Catalog metadata.
 
-    Powered by Google Gemini 2.5 Flash
+    Powered by Google Gemini 2.0 Flash via Vertex AI
 
     Features:
     - Search tables by keyword
@@ -55,7 +56,7 @@ class DataDiscoveryAgent:
 
     def __init__(self):
         self.bq_client = bigquery.Client(project=PROJECT_ID)
-        self.model = model  # Gemini 2.5 Flash
+        self.model = model  # Gemini 2.0 Flash via Vertex AI
 
         # Define tools for the agent
         self.tools = [
@@ -393,7 +394,7 @@ class ComplianceGuardianAgent:
     """
     AI Agent for monitoring compliance and data governance policies.
 
-    Powered by Google Gemini 2.5 Flash
+    Powered by Google Gemini 2.0 Flash via Vertex AI
 
     Features:
     - Monitor PII exposure across catalogs
@@ -404,7 +405,7 @@ class ComplianceGuardianAgent:
 
     def __init__(self):
         self.bq_client = bigquery.Client(project=PROJECT_ID)
-        self.model = model  # Gemini 2.5 Flash
+        self.model = model  # Gemini 2.0 Flash via Vertex AI
 
     def get_compliance_score(self) -> Dict:
         """Calculate overall compliance score"""
@@ -557,7 +558,7 @@ class AutoDocumentationAgent:
     """
     AI Agent for automatically generating table and column descriptions.
 
-    Powered by Google Gemini 2.5 Flash
+    Powered by Google Gemini 2.0 Flash via Vertex AI
 
     Features:
     - Generate table descriptions from column names and types
@@ -568,7 +569,7 @@ class AutoDocumentationAgent:
 
     def __init__(self):
         self.bq_client = bigquery.Client(project=PROJECT_ID)
-        self.model = model  # Gemini 2.5 Flash
+        self.model = model  # Gemini 2.0 Flash via Vertex AI
 
     def generate_table_description(self, full_table_name: str) -> str:
         """Generate AI description for a table based on its structure"""
@@ -737,7 +738,7 @@ class DataQualityMonitorAgent:
     """
     AI Agent for monitoring data quality and detecting issues.
 
-    Powered by Google Gemini 2.5 Flash
+    Powered by Google Gemini 2.0 Flash via Vertex AI
 
     Features:
     - Detect schema anomalies
@@ -748,7 +749,7 @@ class DataQualityMonitorAgent:
 
     def __init__(self):
         self.bq_client = bigquery.Client(project=PROJECT_ID)
-        self.model = model  # Gemini 2.5 Flash
+        self.model = model  # Gemini 2.0 Flash via Vertex AI
 
     def get_schema_anomalies(self) -> List[Dict]:
         """Get list of schemas with anomalous characteristics"""
@@ -835,7 +836,7 @@ class DataQualityMonitorAgent:
 
 if __name__ == "__main__":
     print("=" * 80)
-    print("🌊 SyncFlow AI Governance Platform - Gemini 2.5 Flash Agents")
+    print("🌊 SyncFlow AI Governance Platform - Gemini 2.0 Flash via Vertex AI")
     print("=" * 80)
     print()
 
