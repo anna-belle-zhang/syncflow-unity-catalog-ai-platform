@@ -16,7 +16,7 @@ An open-source solution that syncs Databricks Unity Catalog metadata to BigQuery
 
 **🚀 Hosted Application**: [Coming Soon - Deployment in Progress]
 
-**📹 Demo Video**: [Coming Soon - 3-Minute Walkthrough]
+**📹 Demo Video**: [Watch the 3-Minute Walkthrough](https://youtube.com/watch?v=c10shLYQ0tM&feature=youtu.be)
 
 ## 📋 Table of Contents
 
