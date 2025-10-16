@@ -1,0 +1,87 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+    tags: [v*]
+
+env:
+  REGISTRY: gcr.io
+  IMAGE_NAME: syncflow-api
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Configure Docker to use gcloud
+        run: gcloud auth configure-docker ${{ env.REGISTRY }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ secrets.PROJECT_ID }}/${{ env.IMAGE_NAME }}:prod .
+
+      - name: Push image
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ secrets.PROJECT_ID }}/${{ env.IMAGE_NAME }}:prod
+
+      - name: Deploy to Cloud Run (production)
+        run: |
+          gcloud run deploy syncflow-api \
+            --image ${{ env.REGISTRY }}/${{ secrets.PROJECT_ID }}/${{ env.IMAGE_NAME }}:prod \
+            --region us-central1 \
+            --platform managed \
+            --allow-unauthenticated \
+            --set-env-vars PROJECT_ID=${{ secrets.PROJECT_ID }},METADATA_DATASET=${{ secrets.METADATA_DATASET }} \
+            --max-instances 100 \
+            --memory 2Gi \
+            --cpu 2 \
+            --project ${{ secrets.PROJECT_ID }}
+
+      - name: Smoke tests
+        run: |
+          SERVICE_URL=$(gcloud run services describe syncflow-api \
+            --region us-central1 \
+            --format='value(status.url)' \
+            --project ${{ secrets.PROJECT_ID }})
+
+          echo "Testing health endpoint..."
+          curl -f $SERVICE_URL/health || exit 1
+
+          echo "Production deployment successful!"
+
+      - name: Notify Slack
+        if: always()
+        uses: slackapi/slack-github-action@v1
+        with:
+          payload: |
+            {
+              "text": "SyncFlow Production Deployment",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "Status: ${{ job.status }}\nRef: ${{ github.ref }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

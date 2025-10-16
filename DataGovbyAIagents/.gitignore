@@ -1,0 +1,85 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.Python
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+requirements.txt
+
+# uv package manager
+uv.lock
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Streamlit
+.streamlit/
+.streamlit_chats/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Local test folder
+local_test/
+
+# GCP credentials (DO NOT COMMIT)
+*.json
+service-account*.json
+credentials.json
+
+# Terraform
+terraform/.terraform/
+terraform/**/.terraform/
+terraform/**/*.tfstate
+terraform/**/*.tfstate.backup
+terraform/**/*.tfvars
+terraform/**/.terraform.lock.hcl
+!terraform/vars/
+
+# Build artifacts
+dist/
+build/
+
+# IDE settings
+.editorconfig
+
+# OS files
+Thumbs.db
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Locust reports
+locust_results/

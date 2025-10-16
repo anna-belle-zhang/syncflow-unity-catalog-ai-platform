@@ -36,6 +36,7 @@ env/
 .idea/
 *.sw[op]
 *~
+.claude/
 
 # Credentials and secrets
 *credentials*.json

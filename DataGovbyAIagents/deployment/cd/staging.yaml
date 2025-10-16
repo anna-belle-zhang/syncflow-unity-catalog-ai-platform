@@ -1,0 +1,57 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [develop]
+
+env:
+  REGISTRY: gcr.io
+  IMAGE_NAME: syncflow-api
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+
+      - name: Configure Docker to use gcloud
+        run: gcloud auth configure-docker ${{ env.REGISTRY }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ secrets.PROJECT_ID }}/${{ env.IMAGE_NAME }}:staging .
+
+      - name: Push image
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ secrets.PROJECT_ID }}/${{ env.IMAGE_NAME }}:staging
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy syncflow-api-staging \
+            --image ${{ env.REGISTRY }}/${{ secrets.PROJECT_ID }}/${{ env.IMAGE_NAME }}:staging \
+            --region us-central1 \
+            --platform managed \
+            --allow-unauthenticated \
+            --set-env-vars PROJECT_ID=${{ secrets.PROJECT_ID }},METADATA_DATASET=${{ secrets.METADATA_DATASET }} \
+            --project ${{ secrets.PROJECT_ID }}
+
+      - name: Get deployment URL
+        run: |
+          gcloud run services describe syncflow-api-staging \
+            --region us-central1 \
+            --format='value(status.url)' \
+            --project ${{ secrets.PROJECT_ID }}
