@@ -14,7 +14,7 @@ An open-source solution that syncs Databricks Unity Catalog metadata to BigQuery
 
 ## 🌐 Live Demo
 
-**🚀 Hosted Application**: [Coming Soon - Deployment in Progress]
+**🚀 Hosted Application**: [\[Coming Soon - Deployment in Progress\]](https://sync-flow-data-gov-712768514525.us-central1.run.app/)
 
 **📹 Demo Video**: [Watch the 3-Minute Walkthrough](https://youtube.com/watch?v=c10shLYQ0tM&feature=youtu.be)
 
@@ -38,7 +38,7 @@ An open-source solution that syncs Databricks Unity Catalog metadata to BigQuery
 
 **Our Solution**:
 1. **Custom Fivetran Connector** - Automatically syncs Unity Catalog metadata to Google Cloud
-2. **BigQuery Pipeline** - Scalable storage and querying via Fivetran's reliable data pipeline
+2. **Fivetran to Pipeline** - Scalable storage and querying via Fivetran's reliable data pipeline
 3. **AI Governance Platform** - Built on Vertex AI Gemini 2.5 Flash and BigQuery, providing:
    - 🔎 Natural language search across all data assets
    - 📝 Automated documentation generation (1.5 seconds per table)
@@ -56,7 +56,7 @@ Built by **SyncFlow** - Data Engineering Excellence
 This project fulfills all challenge requirements:
 
 ✅ **Custom Fivetran Connector**: Built with Fivetran SDK to extract Unity Catalog metadata via REST API
-✅ **Load to Google Cloud**: Automated BigQuery pipeline with incremental sync via Fivetran
+✅ **Fivetran pipeline **: Automated Fivetran pipeline with incremental Load to Google Cloud
 ✅ **Leverage Google AI Services**: Vertex AI Gemini 2.5 Flash powers four specialized agents
 ✅ **Industry Focus**: Solves real data governance challenges for 10,000+ Databricks enterprises
 ✅ **Modern AI/Data**: Features LLMs, agentic workflows, and augmented analytics
@@ -69,6 +69,23 @@ This project fulfills all challenge requirements:
 - 🎯 Addresses $15B+ data governance market by 2030
 
 ## ✨ Features
+
+### Fivetran Data Pipeline
+**Custom Fivetran Connector for Unity Catalog Integration**
+
+The platform features a production-grade Fivetran connector that orchestrates secure data synchronization from Databricks Unity Catalog to Google BigQuery:
+
+- **Unity Catalog Data Extraction**
+  - 📊 Extracts complete metadata: catalogs, schemas, tables, columns, and properties
+  - 🔄 Incremental sync support - only syncs changes since last run
+  - 🔐 Secure authentication via Databricks access tokens
+  - 📈 Handles scale - supports catalogs with 1000+ tables
+
+- **BigQuery Data Loading**
+  - 🚀 Automated incremental loading via Fivetran's reliable infrastructure
+  - 📑 Structured schema with normalized tables for efficient querying
+  - ⚡ High-performance bulk loading with transactional integrity
+  - 🔄 Auto-recovery and retry logic for failed syncs
 
 ### Unity Catalog Connector
 - ✅ Syncs Unity Catalog metadata (tables, columns, schemas, catalogs)
@@ -83,7 +100,6 @@ This project fulfills all challenge requirements:
 - 📊 **Overview Metrics** - Real-time insights into your data catalog
 
 ### AI Capabilities
-- **99% faster** PII detection
 - **1.5 second** documentation generation
 - **<1 second** natural language search responses
 - **80% cost reduction** using Gemini 2.5 Flash vs Gemini 1.5 Pro
@@ -92,34 +108,51 @@ This project fulfills all challenge requirements:
 
 For detailed technical architecture with data flows and protocols, see [ARCHITECTURE_DIAGRAM.md](ARCHITECTURE_DIAGRAM.md)
 
+### Fivetran Pipeline Architecture
+
 ```
-┌─────────────────────────┐
-│ Databricks Unity Catalog│
-│    (Data Source)        │
-└───────────┬─────────────┘
-            │
-            │ Fivetran Custom Connector
-            │
-            ▼
-┌─────────────────────────┐
-│   Google BigQuery       │
-│  (Metadata Storage)     │
-└───────────┬─────────────┘
-            │
-            │ SQL Queries
-            │
-            ▼
-┌─────────────────────────┐
-│  Google Gemini 2.5 Flash│◄─── AI Processing
-│    (AI Engine)          │
-└───────────┬─────────────┘
-            │
-            ▼
-┌─────────────────────────┐
-│  Streamlit Dashboard    │
-│  (User Interface)       │
-└─────────────────────────┘
+┌──────────────────────────────┐
+│ Databricks Unity Catalog     │
+│  - Catalogs                  │
+│  - Schemas                   │
+│  - Tables & Columns          │
+│  - Metadata Properties       │
+└──────────────┬───────────────┘
+               │
+               │ Fivetran Custom Connector
+               │ ├─ Extract metadata
+               │ └─ Incremental sync
+               │  Fivetran Pipeline
+               ▼
+┌──────────────────────────────┐
+│    Google BigQuery           │
+│  - Normalized metadata       │
+│  - Catalog schema            │
+│  - Table lineage             │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│  Google Gemini 2.5 Flash     │◄─── AI Analysis
+│    (AI Engine)               │
+└──────────────┬───────────────┘
+               │
+               ▼
+┌──────────────────────────────┐
+│   Streamlit Dashboard        │
+│  - Natural Language Search   │
+│  - Auto Documentation        │
+│  - Compliance Monitoring     │
+│  - Data Quality Metrics      │
+└──────────────────────────────┘
 ```
+
+### Data Flow
+
+1. **Extraction**: Custom Fivetran connector extracts metadata from Unity Catalog REST APIs
+2. **Loading**: Fivetran incrementally loads data to BigQuery
+3. **Analysis**: AI agents process metadata in BigQuery via SQL queries
+4. **Visualization**: Dashboard displays insights and governance metrics
 
 **Key Technologies**:
 - **Fivetran SDK**: Custom connector for Unity Catalog sync
@@ -271,7 +304,7 @@ The **✅ Compliance** page shows:
 - Overall compliance score (0-100)
 - Documentation rate percentage
 - Undocumented tables list
-- High-risk data assets (if PII detection enabled)
+- Data quality metrics and governance insights
 
 ## 🎬 Demo
 
