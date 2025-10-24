@@ -38,7 +38,7 @@ An open-source solution that syncs Databricks Unity Catalog metadata to BigQuery
 
 **Our Solution**:
 1. **Custom Fivetran Connector** - Automatically syncs Unity Catalog metadata to Google Cloud
-2. **Fivetran to Pipeline** - Scalable storage and querying via Fivetran's reliable data pipeline
+2. **Fivetran Pipeline** - Scalable storage and querying via Fivetran's reliable data pipeline
 3. **AI Governance Platform** - Built on Vertex AI Gemini 2.5 Flash and BigQuery, providing:
    - 🔎 Natural language search across all data assets
    - 📝 Automated documentation generation (1.5 seconds per table)
@@ -70,6 +70,13 @@ This project fulfills all challenge requirements:
 
 ## ✨ Features
 
+
+### Fivetran Unity Catalog Connector
+- ✅ Syncs Unity Catalog metadata (tables, columns, schemas, catalogs)
+- ✅ Incremental sync support
+- ✅ Error handling and logging
+- ✅ Fivetran SDK compliant
+
 ### Fivetran Data Pipeline
 **Custom Fivetran Connector for Unity Catalog Integration**
 
@@ -86,12 +93,6 @@ The platform features a production-grade Fivetran connector that orchestrates se
   - 📑 Structured schema with normalized tables for efficient querying
   - ⚡ High-performance bulk loading with transactional integrity
   - 🔄 Auto-recovery and retry logic for failed syncs
-
-### Unity Catalog Connector
-- ✅ Syncs Unity Catalog metadata (tables, columns, schemas, catalogs)
-- ✅ Incremental sync support
-- ✅ Error handling and logging
-- ✅ Fivetran SDK compliant
 
 ### AI Governance Dashboard
 - 🔎 **Natural Language Search** - Query metadata using plain English (powered by Gemini 2.5 Flash)
